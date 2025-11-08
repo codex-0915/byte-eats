@@ -6,9 +6,14 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: ['dist/*'],
+    files: ['**/*.{js,jsx,ts,tsx}'],
+    plugins: ['prettier'],
     rules: {
-      // Enforce 2-space indentation
-      indent: ['error', 2, { SwitchCase: 1 }],
+      // ✅ Prettier integration
+      'prettier/prettier': ['error'],
+
+      // Optional: keep these if you want ESLint to still warn on indentation issues
+      indent: ['error', 2, { SwitchCase: 1, ignoredNodes: ['TemplateLiteral *'] }],
       'react/jsx-indent': ['error', 2],
       'react/jsx-indent-props': ['error', 2],
     },
