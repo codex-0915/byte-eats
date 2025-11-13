@@ -41,3 +41,7 @@ app-example
 # generated native folders
 /ios
 /android
+
+# Ruby and Fastlane Outputs
+.bundle/
+vendor/bundle/
