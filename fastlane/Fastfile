@@ -1,0 +1,26 @@
+default_platform(:android)
+
+platform :android do
+  desc "Run ESLint on the JS/TS code"
+  lane :lint do
+    Dir.chdir("..") do
+    #   sh "npm install"
+      sh "npx eslint ."
+    #   sh "npm run lint"
+    end
+  end
+
+  desc "Build Android release APK"
+  lane :build do
+    Dir.chdir("..") do
+    #   sh "npm install"
+      gradle(task: "assembleRelease")
+    end
+  end
+
+  desc "Lint and build together"
+  lane :lint_and_build do
+    lint
+    build
+  end
+end

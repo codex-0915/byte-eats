@@ -45,3 +45,5 @@ app-example
 # Ruby and Fastlane Outputs
 .bundle/
 vendor/bundle/
+fastlane/README.md
+fastlane/report.xml
