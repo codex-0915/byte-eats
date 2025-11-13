@@ -1,0 +1,35 @@
+name: Android Lint & Build (Fastlane)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  android:
+    name: Lint & Build Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+
+      - name: Install Fastlane
+        run: sudo gem install fastlane -NV
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint and Build via Fastlane
+        working-directory: android
+        run: fastlane lint_and_build
