@@ -1,0 +1,56 @@
+default_platform(:android)
+
+platform :android do
+  desc "Run ESLint on the JS/TS code"
+  lane :lint do
+    Dir.chdir("..") do
+
+      sh "npx eslint ."
+    #   sh "npm run lint"
+    end
+  end
+
+  desc "Build Android release APK"
+  lane :build do
+    Dir.chdir("..") do
+
+      # Create prebuild for Android
+      sh "npx expo prebuild --platform android"
+
+      # Build the APK
+      build_apk
+    end
+  end
+
+  desc "Lint and build together"
+  lane :lint_and_build do
+    lint
+    build
+  end
+
+  private_lane :build_apk do
+    android_dir = File.expand_path("./android", __dir__)
+
+    # Gradle Clean
+    gradle(
+      task: "clean",
+      project_dir: android_dir,
+      properties: {
+        "org.gradle.jvmargs" => "-Xmx4g -Dfile.encoding=UTF-8",
+        "org.gradle.caching" => "true",
+        "org.gradle.parallel" => "true"
+      }
+    )
+
+    # Build the APK
+    gradle(
+      task: "assembleRelease",
+      project_dir: android_dir,
+      properties: {
+        "org.gradle.jvmargs" => "-Xmx4g -Dfile.encoding=UTF-8",
+        "org.gradle.caching" => "true",
+        "org.gradle.parallel" => "true"
+      }
+    )
+  end
+end
