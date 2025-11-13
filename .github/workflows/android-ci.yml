@@ -31,5 +31,4 @@ jobs:
         run: npm ci
 
       - name: Lint and Build via Fastlane
-        working-directory: android
         run: fastlane lint_and_build
